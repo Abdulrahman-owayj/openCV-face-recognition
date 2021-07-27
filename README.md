@@ -134,3 +134,6 @@ cv2.destroyAllWindows()
 ```
 
 **Make sure you use clear image of your face so it can learn it properly**
+
+
+![image](https://user-images.githubusercontent.com/5675794/127233327-f6b7c402-8f1f-488a-8cde-c9da6b4a54a9.png)
