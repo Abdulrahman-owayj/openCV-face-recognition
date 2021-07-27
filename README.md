@@ -85,50 +85,50 @@ You will find file called **data** copy it to the same file where you have your 
 
 **The code used to recognise faces**
 ```ruby
-import numpy as np                                                                                                  #import numpy and give it shortcut
-import face_recognition as fr                                                                                       #import face_recognition and give it shortcut 
-import cv2                                                                                                          #import cv2 
-video_capture = cv2.VideoCapture(0)                                                                                 #take the video stream from the web camera
+import numpy as np                                                                              #import numpy and give it shortcut
+import face_recognition as fr                                                                   #import face_recognition and give it shortcut 
+import cv2                                                                                      #import cv2 
+video_capture = cv2.VideoCapture(0)                                                             #take the video stream from the web camera
 
-myImage = fr.load_image_file("C:/Users/eadh2/Desktop/openCV projects/me.JPEG")                                      #use this image to train the model to recognise someone you can add more to recognise more people
-myImage_encoding = fr.face_encodings(myImage)[0]                                                                    #this is used if you have more than one person in your training image (0) is the numper of face in the image
+myImage = fr.load_image_file("C:/Users/eadh2/Desktop/openCV projects/me.JPEG")                  #use this image to train the model to recognise someone you can add more to recognise more people
+myImage_encoding = fr.face_encodings(myImage)[0]                                                #this is used if you have more than one person in your training image (0) is the numper of face in the image
 
-known_face_encoding = [myImage_encoding]                                                                            # to encode the image and the face in it
-known_face_name = ["Abdoh"]                                                                                         # give the face a name
+known_face_encoding = [myImage_encoding]                                                        # to encode the image and the face in it
+known_face_name = ["Abdoh"]                                                                     # give the face a name
 
 while True:
 
-  ret, frame = video_capture.read()                                                                                 #take a frame from the camera stream
+  ret, frame = video_capture.read()                                                             #take a frame from the camera stream
 
-  rgb_frame = frame [:, :, ::-1]                                                                                    #to change the colors to RGB
-  face_locations = fr.face_locations(rgb_frame)                                                                     #find the location of the faces in the frame taken
+  rgb_frame = frame [:, :, ::-1]                                                                #to change the colors to RGB
+  face_locations = fr.face_locations(rgb_frame)                                                 #find the location of the faces in the frame taken
    
-  face_encodings = fr.face_encodings(rgb_frame, face_locations)                                                     #to encode the faces detected in the frame
+  face_encodings = fr.face_encodings(rgb_frame, face_locations)                                 #to encode the faces detected in the frame
 
-  for (top, right, bottom, left), face_encodings in zip(face_locations, face_encodings):                            #to compare the faces found with the pre-trained faces 
-    matches = fr.compare_faces(known_face_encoding, face_encodings)                                                 #check to see if there is a match or not
+  for (top, right, bottom, left), face_encodings in zip(face_locations, face_encodings):        #to compare the faces found with the pre-trained faces 
+    matches = fr.compare_faces(known_face_encoding, face_encodings)                             #check to see if there is a match or not
 
     name = "Unknown"
-    face_distance = fr.face_distance(known_face_encoding, face_encodings)                                           #this will compare each face in the frame with the pre-trained faces and gives u a number of how similar to each known face
+    face_distance = fr.face_distance(known_face_encoding, face_encodings)                       #this will compare each face in the frame with the pre-trained faces and gives u a number of how similar to each known face
 
-    best_match_index = np.argmin(face_distance)                                                                     #if there is a match then we determind it match with what face (the index number of the face)
+    best_match_index = np.argmin(face_distance)                                                 #if there is a match then we determind it match with what face (the index number of the face)
 
     if matches[best_match_index]:
-     name= known_face_name[best_match_index]                                                                        #the variable name will have the name of the best match
+     name= known_face_name[best_match_index]                                                    #the variable name will have the name of the best match
 
-    cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)                                              #draw a rectangular shape around the face 
+    cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)                          #draw a rectangular shape around the face 
 
-    cv2.rectangle(frame, (left, bottom -35), (right, bottom), (0,0, 255), cv2.FILLED)                               #draw a small rectangle filled with color to write the name there
-    font = cv2.FONT_HERSHEY_SIMPLEX                                                                                 #choose the font style
-    cv2.putText(frame, name, (left +6, bottom -10), font, 1.0, (255, 255, 255), 1)                                  #show the name of the person
+    cv2.rectangle(frame, (left, bottom -35), (right, bottom), (0,0, 255), cv2.FILLED)           #draw a small rectangle filled with color to write the name there
+    font = cv2.FONT_HERSHEY_SIMPLEX                                                             #choose the font style
+    cv2.putText(frame, name, (left +6, bottom -10), font, 1.0, (255, 255, 255), 1)              #show the name of the person
 
-  cv2.imshow('webcame', frame)                                                                                      #Finally show the image to the user with the name attached
+  cv2.imshow('webcame', frame)                                                                  #Finally show the image to the user with the name attached
 
  
-  if cv2.waitKey(1) & 0xFF == ord('q'):                                                                             #use the letter 'q' to close the camera window
+  if cv2.waitKey(1) & 0xFF == ord('q'):                                                         #use the letter 'q' to close the camera window
    break
 
-video_capture.release()                                                                                             # to release the software and hardware
+video_capture.release()                                                                         # to release the software and hardware
 cv2.destroyAllWindows()
 
 ```
